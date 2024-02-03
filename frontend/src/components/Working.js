@@ -12,8 +12,10 @@ const Working = () => {
     <div id="explore">
       {" "}
       <div className="ex">
-        <h2 className="ex-title">Upload Your Research Paper</h2>{" "}
+        <h2 className="ex-title">Upload Your Research Paper</h2>
+        <FileUploadComponent onDataUploaded={handleDataUploaded} />
       </div>
+      
       <div className="summery">
         <h2
           className="
@@ -21,7 +23,8 @@ Summify"
         >
           Summify
         </h2>
-        <FileUploadComponent onDataUploaded={handleDataUploaded} />
+       
+
         {uploadedData && (
           <div className='content-sum'>{JSON.stringify(uploadedData)}</div>
         )}
