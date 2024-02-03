@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 
-const FileUploadComponent = () => {
+const FileUploadComponent = ({ onDataUploaded }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [summary, setSummary] = useState("");
 
@@ -11,7 +11,7 @@ const FileUploadComponent = () => {
     setSelectedFile(file);
   };
 
-  const handleSubmit = async ({ onDataUploaded }) => {
+  const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("pdf_file", selectedFile);
 
@@ -38,12 +38,6 @@ const FileUploadComponent = () => {
       <Button className='buttons' onClick={handleSubmit}>
         Submit
       </Button>
-      {summary && (
-        <div>
-          <h2>Summary:</h2>
-          <p>{summary}</p>
-        </div>
-      )}
     </div>
   );
 };

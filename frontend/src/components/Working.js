@@ -7,6 +7,7 @@ const Working = () => {
   const [uploadedData, setUploadedData] = useState(null);
   const handleDataUploaded = (data) => {
     setUploadedData(data);
+    console.log('jsjs--',JSON.stringify(uploadedData))
   };
   return (
     <div id="explore">
