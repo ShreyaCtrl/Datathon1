@@ -35,14 +35,15 @@ const FileUploadComponent = () => {
   };
 
   return (
-    <div>
+    <div className='fe'>
       <input type="file" accept=".pdf" onChange={handleFileChange} />
       {selectedFile && (
         <p>Selected file: {selectedFile.name}</p>
       )}
-      <Button variant="primary" onClick={handleSubmit}>
+      <Button className='buttons' onClick={handleSubmit}>
         Submit
       </Button>
+      
     </div>
   );
 };
