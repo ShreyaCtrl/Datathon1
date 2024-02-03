@@ -1,25 +1,48 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+
 const FileUploadComponent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
-    // Access the selected file using event.target.files
     const file = event.target.files[0];
-
-    // Update the state with the selected file
     setSelectedFile(file);
+  };
+
+  const handleSubmit = () => {
+    if (!selectedFile) {
+      alert('Please select a file before submitting.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+   
+   
+    fetch('http://localhost:5000/summary', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('File uploaded successfully:', data);
+        
+      })
+      .catch(error => {
+        console.error('Error uploading file:', error);
+       
+      });
   };
 
   return (
     <div>
-
       <input type="file" accept=".pdf" onChange={handleFileChange} />
       {selectedFile && (
         <p>Selected file: {selectedFile.name}</p>
       )}
-<Button variant="primary">Submit</Button>
-
+      <Button variant="primary" onClick={handleSubmit}>
+        Submit
+      </Button>
     </div>
   );
 };

@@ -113,7 +113,8 @@ color: black;
 
 #explore{
   
-  background-color: white;
+  background-color: black;
+  color: white;
   padding-bottom: 30vh;
 }
 
@@ -132,6 +133,8 @@ color: black;
 .summery{
 margin: 40px;
 padding: 30px;
+background-color: white;
+color: black;
 border: 1px solid black;
 text-align: center;
 word-break: break-all;
@@ -140,21 +143,46 @@ border-radius: 25px;
 
 .tabbbb{
   margin: 40px;
+  
   color: black!important;
 }
 .ta{
   display: flex;
   justify-content: space-around;
-
+ background-color: #27679c;
 }
 .uncontrolled-tab-example-tab-ExplainEase{
   font-size: larger;
 }
 .nav-link{
   font-size: large!important;
+ 
 }
 .tab-content{
   border-radius: 15px;
   border: 1px solid black;
   padding: 20px;
+  background-color: white;
+}
+
+.vertical-timeline-element:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* Add these styles for hover animation to the buttons inside the cards */
+.vertical-timeline-element:hover .button {
+  transform: translateY(-10px);
+  transition: transform 0.3s ease;
+}
+
+.content-sum{
+  height: 80vh;
+  overflow-y: scroll;
+}
+
+
+.buttons{
+  box-shadow: 0 0 5px cyan,0 0 25px cyan;
+
 }

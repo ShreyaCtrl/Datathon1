@@ -1,34 +1,45 @@
+import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-scroll";
 import "../App.css";
-import { ReactComponent as WorkIcon } from "../assets/img/work.svg"
+import { ReactComponent as WorkIcon } from "../assets/img/work.svg";
 import { ReactComponent as SchoolIcon } from "../assets/img/school.svg";
-// import snow_gif from "../assets/img/snow_gif.gif"
 import timelineElements from "./timelineElements.js";
-// import Snowfall from 'react-snowfall'
-
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
-
 import "react-vertical-timeline-component/style.min.css";
-import { HashLink } from "react-router-hash-link";
-
-function scrollToProjects() {
-  const projectsSection = document.getElementById("project");
-  if (projectsSection) {
-    projectsSection.scrollIntoView({ behavior: "smooth" });
-  }
-}
-
-
 
 function Timeline() {
+  const [scrollDirection, setScrollDirection] = useState("down");
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+
+      if (currentScroll > 0 && scrollDirection !== "up") {
+        setScrollDirection("up");
+      } else if (currentScroll === 0 && scrollDirection !== "down") {
+        setScrollDirection("down");
+      } else {
+        setScrollDirection("");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      isMounted.current = false;
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollDirection]);
+
   let workIconStyles = { background: "#06D6A0" };
   let schoolIconStyles = { background: "#f9c74f" };
 
   return (
-    <div className="timeline1">
-      {/* <Snowfall/> */}
+    <div className={`timeline1 ${scrollDirection === "up" ? "scroll-up" : ""}`}>
       <h1 className="title1">Features</h1>
       <VerticalTimeline className="verticaltimeline1">
         {timelineElements.map((element) => {
@@ -55,22 +66,22 @@ function Timeline() {
               </h5>
               <p id="description">{element.description}</p>
               {showButton && (
-                <a
+                <Link
                   className={`button ${
                     isWorkIcon ? "workButton" : "schoolButton"
                   }`}
-                  // onClick={myprojects}
-                  onClick={scrollToProjects}
-                  style={{cursor:"pointer"}}
+                  to="project" // assuming "project" is the ID of the target element
+                  smooth={true}
+                  duration={500}
+                  style={{ cursor: "pointer" }}
                 >
                   {element.buttonText}
-                </a>
+                </Link>
               )}
             </VerticalTimelineElement>
           );
         })}
       </VerticalTimeline>
-      
     </div>
   );
 }
