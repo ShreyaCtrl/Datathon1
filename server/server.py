@@ -6,9 +6,14 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize
 from math import floor
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app)
+load_dotenv()
+
 def generate_summary(pdf_path):
     doc = fitz.open(pdf_path, filetype="pdf")
 
@@ -121,6 +126,36 @@ def generate_summary_route():
 
             generated_summary = generate_summary(pdf_path)
             return jsonify({"summary": generated_summary})
+
+@app.route("/")
+def hello():
+    return 'Hello, World!'
+
+@app.route('/ask', methods=['POST'])
+def ask():
+    message = str(request.form['messageText'])
+    bot_response = chatbot(message)
+    # print(bot_response)
+    return jsonify({'status':'OK', 'answer':bot_response})
+
+def chatbot(input):
+    client = OpenAI(
+        api_key=os.environ.get("OPENAI_API_KEY"),
+    )
+    if input:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                # {
+                #     "role": "user",
+                #     "content": "You are an AI specialized in answering questions about research papers.",
+                # }
+                {'role': 'system',
+                                 'content': 'You are an AI specialized in answering questions about research papers.'},
+                                {'role': 'user', 'content': input}
+            ],
+            model="gpt-3.5-turbo",
+        )
+        return chat_completion.choices[0].message.content
 
 if __name__ == '__main__':
     app.run(debug=True)
