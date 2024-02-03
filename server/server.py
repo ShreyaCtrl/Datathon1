@@ -9,10 +9,87 @@ from math import floor
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+import spacy
+import re
 
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
+
+
+nlp = spacy.load("en_core_web_sm")
+
+def extract_and_summarize(pdf_path):
+    # Extract text from the PDF
+    pdf_document = fitz.open(pdf_path)
+    text = ""
+    for page_num in range(pdf_document.page_count):
+        page = pdf_document[page_num]
+        text += page.get_text()
+
+    # Process the text using spaCy
+    doc = nlp(text)
+
+    # Extract sentences containing keywords like methodology, algorithm, calculation, etc.
+    relevant_sentences = []
+    keywords = ["methodology", "algorithm", "calculation", "process"]
+
+    capitalize_next = True  # Flag to capitalize the next letter
+    for sentence in doc.sents:
+        # Additional filtering to remove unwanted information
+        if any(keyword in sentence.text.lower() for keyword in keywords):
+            # Remove non-alphanumeric characters, convert to lowercase, and strip
+            clean_sentence = re.sub(r'[^a-zA-Z0-9\s]', '', sentence.text).lower().strip()
+
+            # Capitalize the first letter after each period
+            if capitalize_next:
+                clean_sentence = clean_sentence.capitalize()
+                capitalize_next = False
+
+            relevant_sentences.append(clean_sentence)
+
+        # Stop at the next subtitle
+        if sentence.text.isupper() and sentence.text.isalpha():
+            break
+
+        # Set the flag to capitalize the next letter after a period
+        if '.' in sentence.text and 'www.' not in sentence.text:
+            capitalize_next = True
+
+    # Return the simplified explanation
+    if relevant_sentences:
+        simplified_explanation = ". ".join(relevant_sentences)
+        return simplified_explanation
+    else:
+        return "No relevant information found in the PDF."
+
+def filter_unwanted_content(text):
+    # Process the text using spaCy
+    doc = nlp(text)
+
+    # Define unwanted words or patterns
+    unwanted_words = ["tnmt", "jorge", "9798350333923223100", "ieee", "etc"]
+
+    # Remove unwanted words or patterns
+    filtered_text = ' '.join(token.text for token in doc if token.text.lower() not in unwanted_words)
+
+    return filtered_text
+
+@app.route('/get_algorithm', methods=['POST'])
+def index():
+    # if request.method == 'POST':
+    pdf_file = request.files.get('pdf_file')
+    if not pdf_file:
+        return jsonify({"error": "No file provided"})
+    if pdf_file:
+        pdf_path = os.path.join("uploads", pdf_file.filename)
+        pdf_file.save(pdf_path)
+
+        summary = extract_and_summarize(pdf_path)
+        filtered_summary = filter_unwanted_content(summary)
+
+        # return render_template('index.html', summary=filtered_summary)
+        return jsonify({"status": "OK", "summary": filtered_summary})
 
 def generate_summary(pdf_path):
     doc = fitz.open(pdf_path, filetype="pdf")
@@ -125,7 +202,7 @@ def generate_summary_route():
             pdf_file.save(pdf_path)
 
             generated_summary = generate_summary(pdf_path)
-            return jsonify({"summary": generated_summary})
+            return jsonify({"status": "OK", "summary": generated_summary})
 
 @app.route("/")
 def hello():

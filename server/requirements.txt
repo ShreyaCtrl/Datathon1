@@ -2,3 +2,7 @@
  nltk
  gTTS
  python-dotenv
+ spacy
+ PyMuPDF
+ xml
+ flask_cors
