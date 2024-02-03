@@ -64,7 +64,7 @@ const HomePage = () => {
     <div className='landing-intro-background flex items-center justify-center flex-col w-full h-full'>
       <span
         className="txt-rotate"
-        dataPeriod="1000"
+        dataperiod="1000"
         data-rotate='[ "Summarization", "Future Scope", "Limitation","Chat Help" ]'
       >
        <span className="landing-intro-wrap text-[#fff] font-bold">{text}</span>
