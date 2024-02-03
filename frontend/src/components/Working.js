@@ -1,9 +1,13 @@
-import React from 'react'
+import React , { useState }from 'react'
 import FileUploadComponent from './FileUploadComponent'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 const Working = () => {
+  const [uploadedData, setUploadedData] = useState(null);
+  const handleDataUploaded = (data) => {
+    setUploadedData(data);
+  };
   return (
     <div id="explore">
       {" "}
@@ -17,8 +21,11 @@ Summify"
         >
           Summify
         </h2>
-        <FileUploadComponent />
-        <div className="content-sum"></div>{" "}
+        <FileUploadComponent onDataUploaded={handleDataUploaded} />
+        {uploadedData && (
+          <div className='content-sum'>{JSON.stringify(uploadedData)}</div>
+        )}
+        {/* <div className="content-sum"></div>{" "} */}
       </div>
       <div className="tabbbb">
         <Tabs

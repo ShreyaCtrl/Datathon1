@@ -11,7 +11,7 @@ const FileUploadComponent = () => {
     setSelectedFile(file);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async ({ onDataUploaded }) => {
     const formData = new FormData();
     formData.append("pdf_file", selectedFile);
 
@@ -23,6 +23,7 @@ const FileUploadComponent = () => {
 
       const data = await response.json();
       setSummary(data.summary);
+      onDataUploaded(data.summary);
     } catch (error) {
       console.error("Error:", error);
     }

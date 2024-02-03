@@ -72,7 +72,7 @@ const HomePage = () => {
     </div>
     &nbsp; of your Research Paper
   </div>
-  <Button variant="dark">Explore</Button></div>
+  <Button className='buttons mt-5'>Explore</Button></div>
      
   </div>
   <AboutPage/>
