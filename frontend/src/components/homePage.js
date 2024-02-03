@@ -7,6 +7,7 @@ import './LandingIntro.css';
 import { textVariant } from './motion';
 import AboutPage from './AboutPage';
 import VideoBackground from './VideoBackground';
+import Working from './Working';
 const HomePage = () => {
     const [loopNum, setLoopNum] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -74,7 +75,8 @@ const HomePage = () => {
   <Button variant="dark">Explore</Button></div>
      
   </div>
-  <AboutPage/></>
+  <AboutPage/>
+  <Working/></>
   )
 }
 

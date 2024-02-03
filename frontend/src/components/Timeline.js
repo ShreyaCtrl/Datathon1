@@ -13,10 +13,6 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { HashLink } from "react-router-hash-link";
 
-const myprojects = () =>{
-    window.location.href="https://github.com/vedantkesharia";
-}
-
 function scrollToProjects() {
   const projectsSection = document.getElementById("project");
   if (projectsSection) {

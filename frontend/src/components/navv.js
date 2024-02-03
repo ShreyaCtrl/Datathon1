@@ -25,8 +25,8 @@ const NavbarC = () => {
             <Nav.Link as={HashLink} to="/#about" className="default-link">
               About
             </Nav.Link>
-            <Nav.Link as={HashLink} to="#contact" className="default-link">
-              Contact Us
+            <Nav.Link as={HashLink} to="/#explore" className="default-link">
+              Explore
             </Nav.Link>
             <Nav.Link as={Link} to="/" className="heart-icon">
               <MDBIcon fas icon="heart" />

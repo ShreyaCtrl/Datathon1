@@ -1,63 +1,57 @@
 let timelineElements = [
     {
       id: 1,
-      title: "School",
-      location: "Blossoms S.T. English High School, Mumbai",
+      title: "Summify",
+    //   location: "Blossoms S.T. English High School, Mumbai",
       description:
-        "Did my schooling in Blossoms S.T. English High School, Mumbai. ",
+        " Summify condenses lengthy research papers into concise and informative summaries, providing a quick overview of the key findings and contributions.. ",
       // buttonText: "View Frontend Projects",
-      date: "March 2019",
+    //   date: "March 2019",
       icon: "school",
     },
     {
       id: 2,
-      title: "Junior College",
-      location: "KC College, Mumbai",
+      title: "QueryBot",
+
       description:
-        "Did my HSC through KC College in Mumbai, MHT-CET:96.81 percentile.",
+        " QueryBot engages with users, answering questions related to the research paper, offering clarifications, and providing additional information to enhance the user's understanding.",
       // buttonText: "View Backend Projects",
-      date: "June 2019 - August 2021",
+    //   date: "June 2019 - August 2021",
       icon: "school",
     },
     {
       id: 3,
-      title: "College",
-      location: "Dwarkadas J Sanghvi College of Engineering",
+      title: "ConfScore",
+   
       description:
-        "Am currently persuing Btech in Information Technology in Dwarkadas J Sanghvi College of Engineering,Mumbai.",
+        "ConfScore evaluates the significance of a research paper by scoring it based on the conferences to which it has been submitted, helping researchers gauge the paper's potential impact.",
       // buttonText: "Company Website",
-      date: "January 2022 - present",
+    //   date: "January 2022 - present",
       icon: "school",
     },
     {
-      id: 4,
-      title: "Position Of Responsibility",
-      location: "DJS Compute",
-      description:
-        "Web development team member position in DJS Compute.",
-      // buttonText: "Course Certificate",
-      date: "December 2022 - June 2023",
-      icon: "work",
-    },
-    {
-      id: 5,
-      title: "Web Development",
-      location: "Full Stack Developer",
-      description:
-        "Knowledge of Full-stack development with knowledge of languages and frameworks like Javascript, CSS, HTML, ReactJs, NextJs, NodeJs, ExpressJs, TailwindCSS, MaterialUI and databases like MongoDB, MySQL.",
-      buttonText: "My Projects",
-      date: "Present",
-      icon: "work",
-    },
-    {
       id: 6,
-      title: "Technical Head",
-      location: "DJ Init.AI",
+      title: "ExplainEase",
+ 
       description:
-        "Currently Technical Head at DJ Init.AI which is an AI/ML research club of IT department, responsible for maintaining and updating website.",
-      date: "Present",
+        "ExplainEase generates simplified explanations of complex algorithms, processes, or methodologies from research papers, making the content more accessible to a broader audience with varying levels of expertise.",
+    //   date: "Present",
       icon: "work",
     },
+    {
+        id: 7,
+        title: "LimitScope",
+   
+        description:
+          " LimitScope identifies and analyzes the limitations present in research papers, offering insights into areas where further investigation or improvement may be needed.",
+        // date: "Present",
+        icon: "work",
+      },
   ];
   
   export default timelineElements;
+
+
+
+
+  

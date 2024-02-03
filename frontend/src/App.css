@@ -79,11 +79,15 @@ body, html {
 }
 
 #about{
-  background-color: white;
+  background-color: #e6e9ed;
+  /* background-image: url('../src//assets//img/imm.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: static; */
 }
-.nav-link{
+/* .nav-link{
   color: white!important;
-}
+} */
 
 .title1{
   font-family: "Protest Guerrilla", sans-serif;
@@ -103,4 +107,54 @@ color: black;
 .vertical-timeline::before{
  background-color: black!important;
 }
+.vertical-timeline-element-date{
+  color: black;
+}
 
+#explore{
+  
+  background-color: white;
+  padding-bottom: 30vh;
+}
+
+.ex{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 25vh;
+}
+
+.ex-title{
+  padding-bottom: 3vh;
+}
+
+.summery{
+margin: 40px;
+padding: 30px;
+border: 1px solid black;
+text-align: center;
+word-break: break-all;
+border-radius: 25px;
+}
+
+.tabbbb{
+  margin: 40px;
+  color: black!important;
+}
+.ta{
+  display: flex;
+  justify-content: space-around;
+
+}
+.uncontrolled-tab-example-tab-ExplainEase{
+  font-size: larger;
+}
+.nav-link{
+  font-size: large!important;
+}
+.tab-content{
+  border-radius: 15px;
+  border: 1px solid black;
+  padding: 20px;
+}
