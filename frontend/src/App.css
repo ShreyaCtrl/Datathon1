@@ -128,6 +128,9 @@ color: black;
 
 .ex-title{
   padding-bottom: 3vh;
+  font-size: xxx-large;
+  font-family: "Protest Strike", sans-serif;
+  font-weight: 400;
 }
 
 .summery{
@@ -139,6 +142,7 @@ border: 1px solid black;
 text-align: center;
 word-break: break-all;
 border-radius: 25px;
+margin-bottom: 20vh;
 }
 
 .tabbbb{
@@ -149,13 +153,24 @@ border-radius: 25px;
 .ta{
   display: flex;
   justify-content: space-around;
- background-color: #27679c;
+ background-color: cyan;
+ box-shadow: 0 0 20px cyan ;
+ border-radius: 15px;
 }
 .uncontrolled-tab-example-tab-ExplainEase{
   font-size: larger;
 }
 .nav-link{
   font-size: large!important;
+  #uncontrolled-tab-example-tab-ConfScore{
+    box-shadow: 0 0 5px cyan,0 0 25px cyan !important;
+    background-color: cyan!important;
+    color: black!important;
+    font-size: large!important;
+  }
+  button:hover{
+    box-shadow: 0 0 5px cyan,0 0 25px cyan, 0 0 50px cyan, 0 0 100px cyan ,0 0 200px cyan !important;
+  }
  
 }
 .tab-content{
@@ -163,6 +178,7 @@ border-radius: 25px;
   border: 1px solid black;
   padding: 20px;
   background-color: white;
+  height: 40vh;
 }
 
 .vertical-timeline-element:hover {
@@ -183,6 +199,28 @@ border-radius: 25px;
 
 
 .buttons{
-  box-shadow: 0 0 5px cyan,0 0 25px cyan;
+  box-shadow: 0 0 5px cyan,0 0 25px cyan !important;
+  background-color: cyan!important;
+  color: black!important;
+  font-size: large!important;
+}
 
+.buttons:hover{
+  box-shadow: 0 0 5px cyan,0 0 25px cyan, 0 0 50px cyan, 0 0 100px cyan ,0 0 200px cyan !important;
+}
+
+.fe{
+  display: flex;
+  justify-content: space-around;
+  height: 20vh;
+flex-direction: column;
+}
+#uncontrolled-tab-example-tab-LimitScope{
+  color: black!important;
+}
+#uncontrolled-tab-example-tab-ExplainEase{
+  color: black!important;
+}
+#uncontrolled-tab-example-tab-ConfScore{
+  color: black!important;
 }
