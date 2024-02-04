@@ -43,7 +43,7 @@ let timelineElements = [
         title: "LimitScope",
    
         description:
-          " LimitScope identifies and analyzes the limitations present in research papers, offering insights into areas where further investigation or improvement may be needed.",
+          " LimitScope is a tool that identifies and analyzes limitations within research papers.",
         // date: "Present",
         icon: "work",
       },

@@ -132,7 +132,13 @@ color: black;
   font-family: "Protest Strike", sans-serif;
   font-weight: 400;
 }
-
+.do{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: larger;
+  margin-right: 7vw;
+}
 .summery{
 margin: 40px;
 padding: 30px;
@@ -142,7 +148,7 @@ border: 1px solid black;
 text-align: center;
 word-break: break-all;
 border-radius: 25px;
-margin-bottom: 20vh;
+margin-bottom: 10vh;
 }
 
 .tabbbb{
