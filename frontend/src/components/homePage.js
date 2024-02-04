@@ -59,7 +59,7 @@ const HomePage = () => {
  <> <VideoBackground/>
     <div className='home no-padding-bottom'> 
     
-     <div className='welcome '><div className='we'> Welcome to  <span>Research Bot </span></div>
+     <div className='welcome '><div className='we'> Welcome to  <span>ResearchRef</span></div>
      <div className='home-title d-flex align-items-center'>
     Get &nbsp;
     <div className='landing-intro-background flex items-center justify-center flex-col w-full h-full'>
@@ -78,7 +78,8 @@ const HomePage = () => {
   </div>
   <AboutPage/>
   <Working/>
-  <ChatbotUI/></>
+  {/* <ChatbotUI/> */}
+  </>
   )
 }
 

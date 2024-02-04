@@ -11,6 +11,7 @@ const Working = () => {
   const [summaryData, setSummaryData] = useState(null);
   const [data, setData] = useState(null);
   const [confScore, setConfScore] = useState(null);
+  const [loadingLimitation, setLoadingLimitation] = useState(false);
   const [limitation, setLimitation] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -58,34 +59,24 @@ const Working = () => {
 
   const handleLimationSubmit = async (file) => {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("pdf_file", file); 
   
     try {
-      setLoading(true);
+      setLoadingLimitation(true);
   
-      const response = await fetch("http://127.0.0.1:5000/limitation", {
+      const response = await fetch("http://127.0.0.1:5000/generate_limit", {
         method: "POST",
         body: formData,
       });
   
       const data = await response.json();
       
-      if (data.status === 'OK') {
-        setLimitation(data.has_drawbacks);
-        if (data.has_drawbacks) {
-          console.log("Limitation is present in the dataset.");
-          setLimitation("Limitation is present in the research paper.")
-        } else {
-          console.log("No limitation included in the research paper.");
-          setLimitation("No Limitation is present in the research paper.")
-        }
-      } else {
-        console.error("Error:", data.error);
-      }
+       
+      setLimitation(data.limitation_summary);
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(false);
+      setLoadingLimitation(false);
     }
   };
   
@@ -169,7 +160,14 @@ const Working = () => {
         {data && (
           <Card>
             <Card.Body>
+              {/* <Card.Text>{data}</Card.Text> */}
+              {loadingLimitation || loading? (
+              <div className="loader" style={{ color: 'blue',display:'flex',justifyContent:'center' }}>
+                <Spinner animation="border" />
+              </div>
+            ) : (
               <Card.Text>{data}</Card.Text>
+            )}
             </Card.Body>
           </Card>
         )}

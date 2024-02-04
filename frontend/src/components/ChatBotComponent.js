@@ -1,58 +1,39 @@
-// Chatbot.js
+// src/components/ChatBotComponent.js
 import React, { useState } from 'react';
+import ChatBot from 'react-simple-chatbot';
+import bot from '../assets/img/bot.png';
 
-const Chatbot = () => {
-  const [inputMessage, setInputMessage] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
+const ChatBotComponent = () => {
+  const [steps, setSteps] = useState([
+    {
+      id: '1',
+      message: 'Hello! How can I assist you today?',
+      trigger: 'getUserInput',
+    },
+    {
+      id: 'getUserInput',
+      user: true,
+      trigger: 'apiResponse',
+    },
+    {
+      id: 'apiResponse',
+      message: 'GAN stands for Generative Adversarial Network. It is a type of artificial intelligence algorithm used in machine learning.GANs were introduced by Ian Goodfellow and his colleagues in 2014. The fundamental idea behind GANs is to have two neural networks, a generator, and a discriminator, which are trained simultaneously through adversarial training.',
+      trigger: 'getUserInput',
+    },
+  ]);
 
-  const sendMessage = async () => {
-    // Update chat history with user message
-    setChatHistory([...chatHistory, { role: 'user', content: inputMessage }]);
-    
-    // Call the backend API to get the chatbot response
-    try {
-      const response = await fetch('http://localhost:5000/ask', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ messageText: inputMessage }),
-      });
-
-      const result = await response.json();
-      const botResponse = result.answer;
-
-      // Update chat history with chatbot response
-      setChatHistory([...chatHistory, { role: 'bot', content: botResponse }]);
-    } catch (error) {
-      console.error('Error fetching chatbot response:', error);
-    }
-
-    // Clear input field
-    setInputMessage('');
+  const chatBotConfig = {
+    botAvatar: bot,
+    floating: true,
   };
 
   return (
-    <div className="floating-chat">
-      <div className="chat-history">
-        {/* Display chat history */}
-        {chatHistory.map((message, index) => (
-          <div key={index} className={message.role}>
-            {message.content}
-          </div>
-        ))}
-      </div>
-      <div className="chat-input">
-        {/* Input field and send button */}
-        <input
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-    </div>
+    <ChatBot
+      steps={steps}
+      headerTitle="ResearchBot"
+      {...chatBotConfig}
+    />
   );
 };
 
-export default Chatbot;
+export default ChatBotComponent;

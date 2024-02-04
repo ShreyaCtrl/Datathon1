@@ -14,7 +14,7 @@ const NavbarC = () => {
       <Container>
         <Navbar.Brand as={Link} to="/" className="nav-logo">
           {/* <img src={logo} height="45px" alt="logo" className="nav-l" /> */}
-          Research Bot
+          ResearchRef
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggle"/>
         <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
@@ -32,12 +32,12 @@ const NavbarC = () => {
               <MDBIcon fas icon="heart" />
             </Nav.Link>
             
-            <Nav.Link as={Link} to="/menu" className="default-link">
+            {/* <Nav.Link as={Link} to="/menu" className="default-link">
               Menu
             </Nav.Link>
             <Nav.Link as={Link} to="/login" className="default-link">
               Login
-            </Nav.Link>
+            </Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
       </Container>
