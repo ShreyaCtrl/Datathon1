@@ -224,3 +224,9 @@ flex-direction: column;
 #uncontrolled-tab-example-tab-ConfScore{
   color: black!important;
 }
+
+.but{
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2vh;
+}

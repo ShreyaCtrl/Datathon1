@@ -1,62 +1,81 @@
-import React , { useState }from 'react'
-import FileUploadComponent from './FileUploadComponent'
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import React, { useState, useEffect } from 'react';
+import FileUploadComponent from './FileUploadComponent';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Working = () => {
   const [uploadedData, setUploadedData] = useState(null);
+  const [summaryData, setSummaryData] = useState(null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false); // Add loading state
+
+  const handleFileSubmit = async (file) => {
+    const formData = new FormData();
+    formData.append("pdf_file", file);
+
+    try {
+      setLoading(true); // Set loading to true before making the API request
+
+      const response = await fetch("http://127.0.0.1:5000/get_algorithm", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      setSummaryData(data.summary);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false); // Set loading to false after the API request is complete
+    }
+  };
+
+  const handleAlgoClick = () => {
+    console.log('Algo Button Clicked! Summary Data:', summaryData);
+    setData(summaryData);
+  };
+
   const handleDataUploaded = (data) => {
     setUploadedData(data);
-    console.log('jsjs--',JSON.stringify(uploadedData))
+    console.log('jsjs--', JSON.stringify(uploadedData));
   };
+
   return (
     <div id="explore">
-      {" "}
       <div className="ex">
         <h2 className="ex-title">Upload Your Research Paper</h2>
-        <FileUploadComponent onDataUploaded={handleDataUploaded} />
+        <FileUploadComponent onDataUploaded={handleDataUploaded} onFileSubmit={handleFileSubmit} />
       </div>
-      
-      <div className="summery">
-        <h2
-          className="
-Summify"
-        >
-          Summify
-        </h2>
-       
 
-        {uploadedData && (
-          <div className='content-sum'>{JSON.stringify(uploadedData)}</div>
+      <div className="summery">
+        <h2 className="Summify">Summify</h2>
+
+        {loading ? ( // Conditionally render loader
+          <div className="loader" style={{ color: 'blue' }}><Spinner animation="border" /></div>
+        ) : (
+          uploadedData && <div className='content-sum'>{JSON.stringify(uploadedData)}</div>
         )}
-        {/* <div className="content-sum"></div>{" "} */}
       </div>
+
       <div className="tabbbb">
-        <Tabs
-          defaultActiveKey="ConfScore"
-          id="uncontrolled-tab-example"
-          className="mb-3 ta"
-        >
-          <Tab eventKey="ConfScore" title="ConfScore">
-            ConfScore evaluates the significance of a research paper by scoring
-            it based on the conferences to which it has been submitted, helping
-            researchers gauge the paper's potential impact.
-          </Tab>
-          <Tab eventKey="ExplainEase" title="ExplainEase">
-            ExplainEase generates simplified explanations of complex algorithms,
-            processes, or methodologies from research papers, making the content
-            more accessible to a broader audience with varying levels of
-            expertise.
-          </Tab>
-          <Tab eventKey="LimitScope" title="LimitScope">
-            LimitScope identifies and analyzes the limitations present in
-            research papers, offering insights into areas where further
-            investigation or improvement may be needed.
-          </Tab>
-        </Tabs>
+        <div className='but'>
+          <Button className='buttons mt-5' onClick={handleAlgoClick}>Algo</Button>
+          <Button className='buttons mt-5'>ExplainEase</Button>
+          <Button className='buttons mt-5'>LimitScope</Button>
+        </div>
+        {data && (
+          <Card>
+            <Card.Body>
+              <Card.Text>{data}</Card.Text>
+            </Card.Body>
+          </Card>
+          
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default Working
+export default Working;

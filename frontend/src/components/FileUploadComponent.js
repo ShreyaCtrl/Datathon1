@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 
-const FileUploadComponent = ({ onDataUploaded }) => {
+const FileUploadComponent = ({ onDataUploaded ,onFileSubmit }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [summary, setSummary] = useState("");
-
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
+  
+
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("pdf_file", selectedFile);
+    if (selectedFile) {
+      onFileSubmit(selectedFile);
+    } else {
+      console.error("No file selected");
+    }
 
     try {
       const response = await fetch("http://127.0.0.1:5000/generate_summary", {
@@ -26,6 +33,8 @@ const FileUploadComponent = ({ onDataUploaded }) => {
       onDataUploaded(data.summary);
     } catch (error) {
       console.error("Error:", error);
+    }finally {
+      setLoading(false); // Set loading to false after the API request is complete
     }
   };
 
