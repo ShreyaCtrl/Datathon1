@@ -8,6 +8,7 @@ import { textVariant } from './motion';
 import AboutPage from './AboutPage';
 import VideoBackground from './VideoBackground';
 import Working from './Working';
+import ChatbotUI from './ChatbotUi';
 const HomePage = () => {
     const [loopNum, setLoopNum] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -76,7 +77,8 @@ const HomePage = () => {
      
   </div>
   <AboutPage/>
-  <Working/></>
+  <Working/>
+  <ChatbotUI/></>
   )
 }
 

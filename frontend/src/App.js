@@ -37,9 +37,9 @@ function App() {
        <Route path='/about' element={<AboutPage/>}/>
       </Routes>
       {/* <Footer/> */}
-      <ThemeProvider theme={chatBotTheme}>
+      {/* <ThemeProvider theme={chatBotTheme}>
          <ChatBotComponent/>
-        </ThemeProvider>
+        </ThemeProvider> */}
       </BrowserRouter>
     </div>
   );
