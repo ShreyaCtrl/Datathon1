@@ -209,49 +209,12 @@ def generate_summary_route():
 def hello():
     return 'Hello, World!'
 
-# @app.route('/ask', methods=['POST'])
-# def ask():
-#     message = str(request.form['messageText'])
-#     bot_response = chatbot(message)
-#     # print(bot_response)
-#     return jsonify({'status':'OK', 'answer':bot_response})
-
-# def chatbot(input):
-#     client = OpenAI(
-#         api_key=os.environ.get("OPENAI_API_KEY"),
-#     )
-#     if input:
-#         chat_completion = client.chat.completions.create(
-#             messages=[
-#                 # {
-#                 #     "role": "user",
-#                 #     "content": "You are an AI specialized in answering questions about research papers.",
-#                 # }
-#                 {'role': 'system',
-#                                  'content': 'You are an AI specialized in answering questions about research papers.'},
-#                                 {'role': 'user', 'content': input}
-#             ],
-#             model="gpt-3.5-turbo",
-#         )
-#         return chat_completion.choices[0].message.content
-
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import os
-from openai import OpenAI
-
-app = Flask(__name__)
-CORS(app)
-
 @app.route('/ask', methods=['POST'])
 def ask():
-    try:
-        data = request.get_json()
-        message = data['messageText']
-        bot_response = chatbot(message)
-        return jsonify({'status': 'OK', 'answer': bot_response})
-    except Exception as e:
-        return jsonify({"error": str(e)})
+    message = str(request.form['messageText'])
+    bot_response = chatbot(message)
+    # print(bot_response)
+    return jsonify({'status':'OK', 'answer':bot_response})
 
 def chatbot(input):
     client = OpenAI(
@@ -260,16 +223,53 @@ def chatbot(input):
     if input:
         chat_completion = client.chat.completions.create(
             messages=[
+                # {
+                #     "role": "user",
+                #     "content": "You are an AI specialized in answering questions about research papers.",
+                # }
                 {'role': 'system',
-                 'content': 'You are an AI specialized in answering questions about research papers.'},
-                {'role': 'user', 'content': input}
+                                 'content': 'You are an AI specialized in answering questions about research papers.'},
+                                {'role': 'user', 'content': input}
             ],
             model="gpt-3.5-turbo",
         )
         return chat_completion.choices[0].message.content
 
-if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+# from flask import Flask, request, jsonify
+# from flask_cors import CORS
+# import os
+# from openai import OpenAI
+#
+# app = Flask(__name__)
+# CORS(app)
+#
+# @app.route('/ask', methods=['POST'])
+# def ask():
+#     try:
+#         data = request.get_json()
+#         message = data['messageText']
+#         bot_response = chatbot(message)
+#         return jsonify({'status': 'OK', 'answer': bot_response})
+#     except Exception as e:
+#         return jsonify({"error": str(e)})
+#
+# def chatbot(input):
+#     client = OpenAI(
+#         api_key=os.environ.get("OPENAI_API_KEY"),
+#     )
+#     if input:
+#         chat_completion = client.chat.completions.create(
+#             messages=[
+#                 {'role': 'system',
+#                  'content': 'You are an AI specialized in answering questions about research papers.'},
+#                 {'role': 'user', 'content': input}
+#             ],
+#             model="gpt-3.5-turbo",
+#         )
+#         return chat_completion.choices[0].message.content
+#
+# if __name__ == '__main__':
+#     app.run(port=5000, debug=True)
 
 
 # Dummy data for conference ranks
@@ -402,6 +402,30 @@ def upload_file():
         return jsonify({'status':'OK', 'has_drawbacks':has_drawbacks})
 
     return jsonify({'status':'OK', 'error':'No file part'})
+
+@app.route('/generate_limit', methods=['POST'])
+def generate_limit():
+    if request.method == 'POST':
+        pdf_file = request.files['pdf_file']
+
+        if pdf_file:
+            pdf_path = "uploads/" + pdf_file.filename
+            pdf_file.save(pdf_path)
+
+            # Assuming that you have a function named generate_limitation_summary
+            limitation_summary = generate_limitation_summary(pdf_path)
+
+            return jsonify({"status": "OK", "limitation_summary": limitation_summary})
+
+    return jsonify({"status": "OK", "error": "No file part"})
+
+
+def generate_limitation_summary(pdf_path):
+    # Extracting and summarizing the content from the PDF
+    summary = extract_and_summarize(pdf_path)
+    # Generating limitation summary using the chatbot
+    limitation_summary = chatbot("What are the limitations of the research?\n" + summary)
+    return limitation_summary
 
 if __name__ == '__main__':
     app.run(debug=True)
