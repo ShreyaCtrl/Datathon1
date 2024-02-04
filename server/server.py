@@ -11,6 +11,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import spacy
 import re
+import PyPDF2
 
 app = Flask(__name__)
 CORS(app)
@@ -237,7 +238,8 @@ def chatbot(input):
 # Dummy data for conference ranks
 conference_ranks = {
     "Asia Conference on Machine Learning and Computing": "8",
-    "Conference B": "5"
+    "Conference B": "5",
+    "International Journal of Electronics and Computer Science Engineering":"7"
     # Add more conferences and their ranks
 }
 
@@ -275,7 +277,7 @@ def analyze():
     if conference_name:
         rank = conference_ranks.get(conference_name, "N/A")
         # return render_template('result.html', conference_name=conference_name, rank=rank)
-        return jsonify({"status": "OK", "conference_name": conference_name, "rank": rank})
+        return jsonify({"status": "OK", "data": f'Conference name is {conference_name} and Rank is {rank}'})
     else:
         return jsonify({"status": "OK", 'error': "Conference name not found"})
         # return render_template('result.html', error="Conference name not found")
