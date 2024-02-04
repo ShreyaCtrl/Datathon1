@@ -1,76 +1,66 @@
-from flask import Flask, render_template, request
-import nltk
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
+from flask import Flask, request, render_template, flash, redirect, url_for, jsonify
+import os
+import PyPDF2
 
-# app = Flask(__name__)
+app = Flask(__name__)
+app.secret_key = os.environ.get("OPENAI_API_KEY"),
 
-# Dummy data for conference ranks
-conference_ranks = {
-    "Asia Conference on Machine Learning and Computing": 8,
-    "Conference B": 5,
-    # Add more conferences and their ranks
-}
+ALLOWED_EXTENSIONS = {'pdf'}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 
-# Download NLTK resources (if not already downloaded)
-nltk.download('punkt')
-nltk.download('stopwords')
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Preprocess text
-def preprocess_text(text):
-    tokens = word_tokenize(text.lower())
-    stop_words = set(stopwords.words('english'))
-    tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
-    return tokens
+def allowed_file_size(file_size):
+    return file_size <= MAX_FILE_SIZE
 
-# Calculate similarity between two sets of words
-def calculate_similarity(set1, set2):
-    intersection = len(set1.intersection(set2))
-    union = len(set1.union(set2))
-    return intersection / union if union != 0 else 0
-#
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
+def check_for_drawbacks(file_path):
+    drawbacks_keywords = ['limitation', 'drawback', 'challenge', 'shortcoming']
 
-@app.route('/analyze', methods=['POST'])
-def analyze():
-    if 'file' not in request.files:
-        return render_template('result.html', error="No file part")
+    with open(file_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = ""
+        for page_num in range(len(pdf_reader.pages)):
+            text += pdf_reader.pages[page_num].extract_text()
 
-    file = request.files['file']
+    for keyword in drawbacks_keywords:
+        if keyword.lower() in text.lower():
+            return True
 
-    if file.filename == '':
-        return render_template('result.html', error="No selected file")
+    return False
 
-    conference_name = analyze_paper(file)
+@app.route('/limitation', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            # flash('No file part')
+            # return redirect(request.url)
+            return jsonify({'status':'OK', 'error':'No file part'})
 
-    if conference_name:
-        rank = conference_ranks.get(conference_name, "N/A")
-        return render_template('result.html', conference_name=conference_name, rank=rank)
-    else:
-        return render_template('result.html', error="Conference name not found")
+        file = request.files['file']
 
-def analyze_paper(file):
-    # Read content from the file in binary mode
-    content = file.read()
+        if file.filename == '':
+            # flash('No selected file')
+            return jsonify({'status':'OK', 'error':'No file part'})
 
-    # Preprocess the content
-    paper_tokens = preprocess_text(content.decode('utf-8', errors='ignore'))
+        if not allowed_file(file.filename):
+            # flash('Invalid file extension. Only PDF files are allowed.')
+            # return redirect(request.url)
+            return jsonify({'status':'OK', 'error':'Invalid file extension. Only PDF files are allowed.'})
 
-    # Compare with each conference name
-    max_similarity = 0
-    selected_conference = None
+        if not allowed_file_size(len(request.data)):
+            # flash('File size exceeds the allowed limit (10 MB).')
+            return jsonify({'status':'OK', 'error':'File size exceeds the allowed limit (10 MB).'})
+            # return redirect(request.url)
 
-    for conf_name in conference_ranks:
-        conf_tokens = preprocess_text(conf_name)
-        similarity = calculate_similarity(set(paper_tokens), set(conf_tokens))
+        file_path = os.path.join('uploads', file.filename)
+        file.save(file_path)
 
-        if similarity > max_similarity:
-            max_similarity = similarity
-            selected_conference = conf_name
+        has_drawbacks = check_for_drawbacks(file_path)
 
-    return selected_conference
+        # return render_template('result.html', has_drawbacks=has_drawbacks)
+        return jsonify({'status':'OK', 'has_drawbacks':has_drawbacks})
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    return jsonify({'status':'OK', 'error':'No file part'})
+    # return render_template('upload.html')
+
